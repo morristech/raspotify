@@ -1,4 +1,4 @@
-FROM debian:stretch
+FROM debian:buster
 
 ENV INSIDE_DOCKER_CONTAINER 1
 
@@ -41,11 +41,11 @@ RUN echo '#!/bin/sh\narm-linux-gnueabihf-gcc --sysroot /toolchain/rpi-tools/arm-
 # Install 1.0.x alsa-utils which is needed for compilation
 ENV PKG_CONFIG_ALLOW_CROSS 1
 ENV PKG_CONFIG_PATH "/toolchain/rpi-tools/arm-bcm2708/arm-bcm2708hardfp-linux-gnueabi/arm-bcm2708hardfp-linux-gnueabi/sysroot/lib/pkgconfig"
-RUN curl -O https://www.mirrorservice.org/sites/ftp.alsa-project.org/pub/lib/alsa-lib-1.0.29.tar.bz2 \
-    && tar xvjf alsa-lib-1.0.29.tar.bz2 && cd alsa-lib-1.0.29 \
+RUN curl -O https://www.mirrorservice.org/sites/ftp.alsa-project.org/pub/lib/alsa-lib-1.1.8.tar.bz2 \
+    && tar xvjf alsa-lib-1.1.8.tar.bz2 && cd alsa-lib-1.1.8 \
     && CC=arm-linux-gnueabihf-gcc ./configure --host=arm-linux-gnueabihf --disable-python \
         --prefix=/toolchain/rpi-tools/arm-bcm2708/arm-bcm2708hardfp-linux-gnueabi/arm-bcm2708hardfp-linux-gnueabi/sysroot \
     && make -j $(nproc --all) && make install \
-    && cd .. && rm -rf alsa-lib-1.0.29.tar.bz2 alsa-lib-1.0.29
+    && cd .. && rm -rf alsa-lib-1.1.8.tar.bz2 alsa-lib-1.1.8
 
 RUN mkdir /build
